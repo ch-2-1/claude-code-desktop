@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code 桌面端详细教程</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23C96F4A'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' font-weight='700' fill='%23FAF6F0' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#FAF8F4;
+    --surface:#FFFFFF;
+    --ink:#211D18;
+    --muted:#7C7267;
+    --line:#E7DFD2;
+    --accent:#C96F4A;
+    --accent-deep:#A85433;
+    --accent-soft:#F6E7DC;
+    --dark:#24211C;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Noto Sans SC',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-size:16px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent-deep);text-decoration:none;border-bottom:1px solid rgba(201,111,74,.35);transition:border-color .2s,color .2s}
+  a:hover{color:var(--accent-deep);border-bottom-color:var(--accent-deep)}
+
+  /* ========== Hero ========== */
+  .hero{
+    background:
+      radial-gradient(1200px 500px at 85% -10%, rgba(201,111,74,.14), transparent 60%),
+      linear-gradient(180deg,#F4EEE4 0%, var(--bg) 100%);
+    border-bottom:1px solid var(--line);
+    padding:72px 24px 56px;
+  }
+  .hero-inner{max-width:1080px;margin:0 auto}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:500;letter-spacing:.14em;color:var(--accent-deep);
+    text-transform:uppercase;margin-bottom:20px;
+  }
+  .eyebrow::before{content:"";width:28px;height:1px;background:var(--accent)}
+  h1{
+    font-family:'Noto Serif SC',Georgia,serif;
+    font-weight:900;
+    font-size:clamp(34px,5.5vw,58px);
+    line-height:1.18;
+    letter-spacing:.01em;
+    margin-bottom:14px;
+  }
+  .producer{
+    font-family:'Noto Serif SC',Georgia,serif;
+    font-size:clamp(20px,2.6vw,28px);
+    font-weight:700;
+    color:var(--accent-deep);
+    margin-bottom:20px;
+  }
+  .producer .label{color:var(--muted);font-weight:500;margin-right:8px}
+  .subtitle{max-width:640px;color:var(--muted);font-size:17px;margin-bottom:32px}
+  .goal-chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:8px 16px;
+    font-size:14px;font-weight:500;color:var(--ink);
+    box-shadow:0 1px 2px rgba(33,29,24,.04);
+  }
+  .chip b{color:var(--accent-deep);font-weight:700;margin-right:6px}
+
+  /* ========== Layout ========== */
+  .layout{
+    max-width:1080px;margin:0 auto;
+    padding:48px 24px 80px;
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:48px;
+    align-items:start;
+  }
+  /* TOC */
+  .toc{
+    position:sticky;top:32px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px 18px;
+    font-size:14px;
+  }
+  .toc-title{
+    font-size:12px;letter-spacing:.14em;color:var(--muted);
+    text-transform:uppercase;margin-bottom:12px;font-weight:700;
+  }
+  .toc ol{list-style:none}
+  .toc li{margin:2px 0}
+  .toc a{
+    display:flex;gap:10px;align-items:baseline;
+    padding:8px 10px;border-radius:8px;border-bottom:none;
+    color:var(--ink);
+  }
+  .toc a:hover{background:var(--accent-soft);color:var(--accent-deep)}
+  .toc .num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;color:var(--accent);font-weight:500;
+  }
+
+  /* Main sections */
+  main{min-width:0}
+  section{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:36px 36px 32px;
+    margin-bottom:28px;
+    scroll-margin-top:24px;
+    box-shadow:0 1px 3px rgba(33,29,24,.03);
+  }
+  .sec-head{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  .sec-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;font-weight:500;
+    color:var(--accent-deep);
+    background:var(--accent-soft);
+    border-radius:8px;
+    padding:6px 10px;
+  }
+  h2{
+    font-family:'Noto Serif SC',Georgia,serif;
+    font-size:26px;font-weight:700;letter-spacing:.01em;
+  }
+  .sec-body p{margin-bottom:14px;color:#3A342D}
+  .sec-body p:last-child{margin-bottom:0}
+  .sec-body ul{margin:0 0 14px;padding-left:0;list-style:none}
+  .sec-body ul li{
+    position:relative;padding-left:22px;margin-bottom:10px;color:#3A342D;
+  }
+  .sec-body ul li::before{
+    content:"";position:absolute;left:4px;top:12px;
+    width:6px;height:6px;border-radius:50%;background:var(--accent);
+  }
+
+  /* Link / download card */
+  .link-card{
+    display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+    background:#FBF7F1;
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:10px;
+    padding:14px 18px;
+    margin:14px 0;
+    font-size:15px;
+  }
+  .link-card .label{color:var(--muted);font-size:13px;margin-right:4px}
+  .pwd{
+    font-family:'JetBrains Mono',monospace;
+    background:var(--dark);color:#F4E6D8;
+    border-radius:6px;padding:2px 10px;font-size:13px;letter-spacing:.05em;
+  }
+  .mono{font-family:'JetBrains Mono',monospace;font-size:.92em}
+
+  /* Screenshot */
+  figure.shot{
+    margin:20px 0 6px;
+    background:#FBF8F2;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px;
+  }
+  figure.shot img{
+    display:block;width:100%;height:auto;
+    border-radius:8px;
+    border:1px solid #EDE6D9;
+    background:#fff;
+  }
+  figure.shot figcaption{
+    margin-top:10px;font-size:13px;color:var(--muted);text-align:center;
+  }
+  .shot-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:18px}
+
+  /* Footer */
+  footer{
+    border-top:1px solid var(--line);
+    padding:28px 24px;text-align:center;
+    color:var(--muted);font-size:13px;
+  }
+
+  /* ========== Responsive ========== */
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr;gap:24px;padding:28px 16px 60px}
+    .toc{position:static;order:-1}
+    .toc ol{display:flex;flex-wrap:wrap;gap:4px}
+    .toc a{padding:6px 10px;font-size:13px}
+    section{padding:26px 20px}
+    .hero{padding:48px 20px 40px}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">桌面端配置指南</div>
+    <h1>Claude Code 桌面端<br>详细教程</h1>
+    <div class="producer"><span class="label">Up：</span>陈浩</div>
+    <p class="subtitle">从安装桌面版、无账号使用，到接入 DeepSeek、中文汉化与自定义 Skill，一份完整的本地配置指南。</p>
+    <div class="goal-chips">
+      <span class="chip"><b>01</b>安装桌面版</span>
+      <span class="chip"><b>02</b>无账号使用</span>
+      <span class="chip"><b>03</b>接入 DeepSeek</span>
+      <span class="chip"><b>04</b>中文汉化</span>
+      <span class="chip"><b>05</b>使用自己的 Skill</span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <aside class="toc">
+    <div class="toc-title">目录</div>
+    <ol>
+      <li><a href="#install"><span class="num">01</span>安装桌面版</a></li>
+      <li><a href="#no-account"><span class="num">02</span>无账号使用</a></li>
+      <li><a href="#deepseek"><span class="num">03</span>接入 DeepSeek</a></li>
+      <li><a href="#zh"><span class="num">04</span>中文汉化</a></li>
+      <li><a href="#skill"><span class="num">05</span>使用自己的 Skill</a></li>
+    </ol>
+  </aside>
+
+  <main>
+
+    <!-- 01 安装 -->
+    <section id="install">
+      <div class="sec-head">
+        <span class="sec-num">01</span>
+        <h2>安装 Claude Code 桌面版</h2>
+      </div>
+      <div class="sec-body">
+        <p>官方网址：<a href="https://claude.com/product/claude-code" target="_blank" rel="noopener">https://claude.com/product/claude-code</a>（如果进不去用下面的网盘资料）。</p>
+        <div class="link-card">
+          <span class="label">百度网盘</span>
+          <a href="https://pan.baidu.com/s/1T_zz-j7EwBnFgCo0bu_2mg?pwd=chzs" target="_blank" rel="noopener">https://pan.baidu.com/s/1T_zz-j7EwBnFgCo0bu_2mg?pwd=chzs</a>
+          <span class="pwd">提取码: chzs</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 无账号使用 -->
+    <section id="no-account">
+      <div class="sec-head">
+        <span class="sec-num">02</span>
+        <h2>无账号使用</h2>
+      </div>
+      <div class="sec-body">
+        <ul>
+          <li>开启开发者选项，在接入 DeepSeek 模型后进去第三方配置。</li>
+        </ul>
+        <div class="shot-grid">
+          <figure class="shot">
+            <img src="图片和附件/image%204.png" alt="开发者选项与第三方配置界面截图">
+            <figcaption>开启开发者选项，进入第三方模型配置</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="图片和附件/image%209.png" alt="第三方配置填写界面截图">
+            <figcaption>按要求填入第三方模型信息</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 接入 DeepSeek -->
+    <section id="deepseek">
+      <div class="sec-head">
+        <span class="sec-num">03</span>
+        <h2>接入 DeepSeek</h2>
+      </div>
+      <div class="sec-body">
+        <ul>
+          <li><a href="https://pan.baidu.com/s/1sUklylI_bTkV7QL1a7Wy1g?pwd=chzs" target="_blank" rel="noopener"><b>CC-Switch for Windows</b></a> Windows 安装包。</li>
+        </ul>
+        <div class="link-card">
+          <span class="label">Windows</span>
+          <a href="https://pan.baidu.com/s/1sUklylI_bTkV7QL1a7Wy1g" target="_blank" rel="noopener"><span class="mono">https://pan.baidu.com/s/1sUklylI_bTkV7QL1a7Wy1g</span></a>
+          <span class="label">提取码</span><span class="pwd">chzs</span>
+        </div>
+        <ul>
+          <li><a href="https://pan.baidu.com/s/1qTTHp1DstqaA52d-oaWxHQ?pwd=chzs" target="_blank" rel="noopener"><b>CC-Switch for macOS</b></a> macOS 安装包。</li>
+        </ul>
+        <div class="link-card">
+          <span class="label">macOS</span>
+          <a href="https://pan.baidu.com/s/1qTTHp1DstqaA52d-oaWxHQ" target="_blank" rel="noopener"><span class="mono">https://pan.baidu.com/s/1qTTHp1DstqaA52d-oaWxHQ</span></a>
+          <span class="label">提取码</span><span class="pwd">chzs</span>
+        </div>
+        <p>新版本发布时可从 GitHub Releases 获取更新。</p>
+
+        <div class="shot-grid">
+          <figure class="shot">
+            <img src="图片和附件/image%207.png" alt="CC-Switch 配置界面截图一">
+            <figcaption>CC-Switch 主界面</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="图片和附件/image%208.png" alt="CC-Switch 配置界面截图二">
+            <figcaption>选择并添加模型供应商</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="图片和附件/image%202.png" alt="CC-Switch 配置界面截图三">
+            <figcaption>填写模型接口信息</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="图片和附件/image.png" alt="CC-Switch 配置界面截图四">
+            <figcaption>保存并启用配置</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="图片和附件/image%201.png" alt="CC-Switch 配置界面截图五">
+            <figcaption>确认切换生效</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="图片和附件/image%203.png" alt="CC-Switch 配置界面截图六">
+            <figcaption>回到 Claude Code 验证连接</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="图片和附件/image%2010.png" alt="CC-Switch 配置界面截图七">
+            <figcaption>接入完成，开始对话</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 中文汉化 -->
+    <section id="zh">
+      <div class="sec-head">
+        <span class="sec-num">04</span>
+        <h2>中文汉化</h2>
+      </div>
+      <div class="sec-body">
+        <ul>
+          <li>下载中文汉化包：<a href="https://github.com/javaht/claude-desktop-zh-cn.git" target="_blank" rel="noopener"><span class="mono">https://github.com/javaht/claude-desktop-zh-cn.git</span></a></li>
+        </ul>
+        <div class="link-card">
+          <span class="label">汉化包网盘</span>
+          <a href="https://pan.baidu.com/s/1OfN3-1Qw6f8lLT4677q3zQ?pwd=chzs" target="_blank" rel="noopener"><span class="mono">https://pan.baidu.com/s/1OfN3-1Qw6f8lLT4677q3zQ?pwd=chzs</span></a>
+          <span class="pwd">提取码: chzs</span>
+        </div>
+        <ul>
+          <li>下载解压汉化包后，运行汉化包里的 <span class="mono">.bat</span> 文件，选择中文补丁即可。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 05 使用 Skill -->
+    <section id="skill">
+      <div class="sec-head">
+        <span class="sec-num">05</span>
+        <h2>使用自己的 Skill</h2>
+      </div>
+      <div class="sec-body">
+        <ul>
+          <li>打开 Claude Code 桌面端后，点击新建项目，跟着如下图所示操作，最后就可以上传添加自己的 Skill 了。</li>
+        </ul>
+        <div class="shot-grid">
+          <figure class="shot">
+            <img src="图片和附件/image%206.png" alt="新建项目入口截图">
+            <figcaption>点击新建项目，进入项目创建流程</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="图片和附件/image%205.png" alt="上传 Skill 操作截图">
+            <figcaption>上传并添加自己的 Skill</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  Claude Code 桌面端详细教程 · 本页依据教程原始内容整理制作
+</footer>
+
+</body>
+</html>
